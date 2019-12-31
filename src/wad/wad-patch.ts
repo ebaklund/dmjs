@@ -13,27 +13,27 @@ export = class WadPatch extends WadItem
 
   get width (): number
   {
-    return this.wadView.getInt16(0);
+    return this.wadView.getInt16(0, true);
   }
 
   get height (): number
   {
-    return this.wadView.getInt16(2);
+    return this.wadView.getInt16(2, true);
   }
 
   get x (): number
   {
-    return this.wadView.getInt16(4);
+    return this.wadView.getInt16(4, true);
   }
 
   get y (): number
   {
-    return this.wadView.getInt16(6);
+    return this.wadView.getInt16(6, true);
   }
 
   getColumnOfs(i: number): number
   {
-    return this.wadView.getInt32(8 + i * 4);
+    return this.wadView.getInt32(8 + i * 4, true);
   }
 
   getColumn(i: number): WadColumn

@@ -6,7 +6,7 @@ export = class WadView extends DataView
 {
   constructor (arrayBuffer: ArrayBuffer, offset: number, length: number | undefined)
   {
-    console.log('WadView.constructor()');
+    //console.log('WadView.constructor()');
     super(arrayBuffer, offset, length);
   }
 

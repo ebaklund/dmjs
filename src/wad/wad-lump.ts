@@ -6,6 +6,7 @@ export = class WadLump extends WadItem
 {
   constructor (wadView: WadView)
   {
+    //console.log('WadLump.constructor()');
     super(wadView);
   }
 
@@ -16,8 +17,7 @@ export = class WadLump extends WadItem
 
   get dataOffset(): number
   {
-    console.log('WadLump.constructor()');
-    return this.wadView.getInt32(0);
+    return this.wadView.getInt32(0, true);
   }
 
   get data(): WadView
@@ -27,11 +27,14 @@ export = class WadLump extends WadItem
 
   get size(): number
   {
-    return this.wadView.getInt32(4);
+    return this.wadView.getInt32(4, true);
   }
 
   get name(): string
   {
-    return this.wadView.getString(8, 8);
+    let length = 0;
+    for (; length < 8 && this.wadView.getUint8(8 + length) > 0; ++length);
+
+    return this.wadView.getString(8, length);
   }
 }

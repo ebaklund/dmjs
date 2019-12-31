@@ -7,7 +7,7 @@ export = class WadItem
 {
   constructor (wadView: WadView)
   {
-    console.log('WadItem.constructor()');
+    //console.log('WadItem.constructor()');
     _wadView.set(this, wadView);
   }
 

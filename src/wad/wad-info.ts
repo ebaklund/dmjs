@@ -18,12 +18,12 @@ export = class WadInfo extends WadItem
 
   get numLumps(): number
   {
-    return this.wadView.getInt32(4);
+    return this.wadView.getInt32(4, true);
   }
 
   get infotableOfs(): number
   {
-    return this.wadView.getInt32(8);
+    return this.wadView.getInt32(8, true);
   }
 
   getLump (i: number)

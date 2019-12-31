@@ -12,7 +12,7 @@ console.log('index.js');
     }
   });
 
-  const wad: WadContent = new WadContent(await res.arrayBuffer());
+  const wad: WadContent = WadContent.from(await res.arrayBuffer());
 
   console.log('wad fetched!');
 })()

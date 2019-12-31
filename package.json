@@ -19,8 +19,9 @@
   "scripts": {
     "test": "mocha",
     "start": "node server.js",
-    "build": "tsc && browserify dest/doom.js > wwwroot/js/doom.js",
-    "server": "serv wwwroot"
+    "build": "rm -rf dest/* && rm -rf wwwroot/js/* && tsc && browserify dest/js/doom.js > wwwroot/js/doom.js",
+    "server": "serve wwwroot",
+    "doom": "npm run build && npm run server"
   },
   "repository": {
     "type": "git",

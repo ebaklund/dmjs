@@ -7,22 +7,29 @@ const _lumpMap: WeakMap<object, Map<string, WadLump>> = new WeakMap();
 
 class WadContent
 {
-  constructor (wadBuffer: ArrayBuffer)
+  constructor ()
   {
     console.log('WadContent.constructor()');
 
+    _lumpMap.set(this, new Map<string, WadLump>());
+  }
+
+  static from (wadBuffer: ArrayBuffer): WadContent
+  {
     const wadView = new WadView(wadBuffer, 0, undefined);
     const wadInfo = new WadInfo(wadView);
     const n = wadInfo.numLumps;
-    const lumpMap = this.lumpMap;
+    const wadContent = new WadContent();
 
     for (let i = 0; i <n; ++i)
     {
       const lump: WadLump = wadInfo.getLump(i);
-      lumpMap.set(lump.name, lump);
+      wadContent.lumpMap.set(lump.name, lump);
 
       console.log(`  ${lump.name}`);
     }
+
+    return wadContent;
   }
 
   get lumpMap (): Map<string, WadLump>
