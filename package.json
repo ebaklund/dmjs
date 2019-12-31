@@ -1,0 +1,36 @@
+{
+  "name": "dmjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.2",
+    "browserify": "^16.5.0",
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "mocha": "^6.2.2",
+    "serve": "^11.3.0",
+    "sinon": "^8.0.2",
+    "typescript": "^3.7.4"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js",
+    "build": "tsc && browserify dest/doom.js > wwwroot/js/doom.js",
+    "server": "serv wwwroot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebaklund/dmjs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ebaklund/dmjs/issues"
+  },
+  "homepage": "https://github.com/ebaklund/dmjs#readme"
+}

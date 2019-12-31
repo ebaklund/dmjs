@@ -1,0 +1,6 @@
+node_modules
+generated-docs
+dest
+wwwroot/data
+wwwroot/js
+package-lock.json
