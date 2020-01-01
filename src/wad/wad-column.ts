@@ -15,4 +15,9 @@ export = class WadColumn extends WadItem
   {
     return new WadPost(this.wadView);
   }
+
+  fillCache(x: number, width: number, height: number, cache: Uint8Array)
+  {
+    this.posts.fillCache(x, 0, width, height, cache);
+  }
 }

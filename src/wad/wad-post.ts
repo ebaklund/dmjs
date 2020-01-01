@@ -24,15 +24,32 @@ export = class WadPost extends WadItem
     return this.topDelta === 0xFF;
   }
 
-  get colors (): WadView
+  get colors (): Uint8Array
   {
-    return this.wadView.spawn(3, this.length);
+    return new Uint8Array(this.wadView.buffer, this.wadView.byteOffset + 3, this.length);
   }
 
   get next (): WadPost
   {
     return new WadPost(this.wadView.spawn(4 + this.length, undefined));
   }
+
+  fillCache(x: number, y: number, width: number, height: number, cache: Uint8Array)
+  {
+    if (this.isEnd)
+      return;
+
+    const n = this.length;
+    const colors = this.colors;
+    let i = 0;
+    let j = (y - 1) * width + x;
+
+    while (i < n)
+      cache[j += width] = colors[i++];
+
+    this.next.fillCache(x, y + n, width, height, cache);
+  }
+
 
   toString (): string
   {

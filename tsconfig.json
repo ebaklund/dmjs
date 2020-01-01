@@ -5,7 +5,8 @@
     "outDir": "dest/js",
     "lib": [ "ES2018", "dom" ],
     "moduleResolution": "node",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "strictBindCallApply": true
   },
   "include": [
     "src/**/*"
