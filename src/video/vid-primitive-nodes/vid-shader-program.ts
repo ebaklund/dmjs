@@ -1,78 +1,50 @@
 import VidGroupNode = require('./vid-group-node');
+import VidStateStack = require('./vid-state-stack');
 
 import VidVertexShader = require('./vid-vertex-shader');
 import VidFragmentShader = require('./vid-fragment-shader');
-import VidStateStack = require('./vid-state-stack');
 
 
-const _vs = new WeakMap<object, VidVertexShader>();
-const _fs = new WeakMap<object, VidFragmentShader>();
-const _gvl = new WeakMap<object, number>();
-const _tvl = new WeakMap<object, number>();
-const _glp = new WeakMap<object, WebGLProgram>();
+const _vertexShader = new WeakMap<object, VidVertexShader>();
+const _fragmentShader = new WeakMap<object, VidFragmentShader>();
+const _glProgram = new WeakMap<object, WebGLProgram>();
 
 
 class VidShaderProgram extends VidGroupNode
 {
-  constructor (vertexShaderSource: string, fragmentShaderSource: string)
+  constructor ()
   {
     super();
-    _vs.set(this, new VidVertexShader(vertexShaderSource));
-    _fs.set(this, new VidFragmentShader(fragmentShaderSource));
   }
 
-  getGlProgram (gl: WebGL2RenderingContext): WebGLProgram
+  getGlProgram (gl: WebGL2RenderingContext, state: VidStateStack): WebGLProgram
   {
-    let glp = _glp.get(this);
+    let glProgram = _glProgram.get(this);
 
-    if (glp === undefined)
+    if (glProgram === undefined)
     {
-      glp = createGlProgram(gl, _vs.get(this) as VidVertexShader, _fs.get(this) as VidFragmentShader);
-      _glp.set(this, glp);
+      const vertexShader = state.get(VidVertexShader) as VidVertexShader | undefined;
+      if (vertexShader === undefined)
+        throw new Error('VidShaderProgram.getGlProgram(): Failed to locate VidVertexShader');
+
+      const fragmentShader = state.get(VidFragmentShader) as VidFragmentShader | undefined;
+      if (fragmentShader === undefined)
+        throw new Error('VidShaderProgram.getGlProgram(): Failed to locate VidFragmentShader');
+
+      glProgram = createGlProgram(gl, vertexShader, fragmentShader);
+      _glProgram.set(this, glProgram);
     }
 
-    return glp;
-  }
-
-  getGeometryVerticesLocation (gl: WebGL2RenderingContext): number
-  {
-    let gvl = _gvl.get(this);
-
-    if (gvl === undefined)
-    {
-      gvl = gl.getAttribLocation(this.getGlProgram(gl), "a_geometry_vertices");
-      _gvl.set(this, gvl);
-    }
-
-    return gvl as number;
-  }
-
-  getTextureVerticesLocation (gl: WebGL2RenderingContext): number
-  {
-    let tvl = _tvl.get(this);
-
-    if (tvl === undefined)
-    {
-      tvl = gl.getAttribLocation(this.getGlProgram(gl), "a_texture_vertices");
-      _tvl.set(this, tvl);
-    }
-
-    return tvl as number;
-  }
-
-  get paletteTextureUnit (): number
-  {
-    return WebGL2RenderingContext.TEXTURE0;
-  }
-
-  get colorTextureUnit (): number
-  {
-    return WebGL2RenderingContext.TEXTURE1;
+    return glProgram;
   }
 
   async render(gl: WebGL2RenderingContext, state: VidStateStack)
   {
-    gl.useProgram(this.getGlProgram(gl));
+    console.log('VidShaderProgram.render()');
+
+    gl.useProgram(this.getGlProgram(gl, state));
+    state.set(VidShaderProgram, this);
+
     await super.render(gl, state);
   }
 }

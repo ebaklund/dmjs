@@ -27,20 +27,20 @@ const _fragmentShaderSource = `
   }
 `;
 
-
+/*
 class VidPatchRenderer extends VidShaderProgram
 {
   constructor (x: number, y: number, width: number, height: number, data: Uint8Array)
   {
+
     super(_vertexShaderSource, _fragmentShaderSource);
     this.children = [
-/*
       new VidGeometricCoordinates(),
       new VidTextureCoordinates(),
       new VidTransform(),
-*/
     ];
+
   }
 }
-
 export = VidPatchRenderer;
+*/

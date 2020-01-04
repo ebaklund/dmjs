@@ -1,4 +1,4 @@
-import VidRenderableNode = require('./vid-base-node');
+import VidBaseNode = require('./vid-base-node');
 import VidStateStack = require('./vid-state-stack');
 
 
@@ -24,7 +24,7 @@ function compile (gl: WebGL2RenderingContext, shaderType: number, source: string
 }
 
 
-class VidShaderBase implements VidRenderableNode
+class VidBaseShader implements VidBaseNode
 {
   constructor (shaderType: number, source: string)
   {
@@ -51,4 +51,4 @@ class VidShaderBase implements VidRenderableNode
   }
 }
 
-export = VidShaderBase
+export = VidBaseShader

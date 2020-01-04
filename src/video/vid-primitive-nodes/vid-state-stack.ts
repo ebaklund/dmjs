@@ -1,27 +1,27 @@
-const _maps = new WeakMap<object, Map<string, object>[]>();
+const _maps = new WeakMap<object, Map<object, object>[]>();
 
 class VidStateStack
 {
   constructor ()
   {
-    _maps.set(this, []);
+    _maps.set(this, [new Map<object, object>()]);
   }
 
   push ()
   {
-    (_maps.get(this) as Map<string, object>[])
-      .push(new Map<string, object>());
+    (_maps.get(this) as Map<object, object>[])
+      .push(new Map<object, object>());
   }
 
   pop ()
   {
-    (_maps.get(this) as Map<string, object>[])
+    (_maps.get(this) as Map<object, object>[])
       .pop();
   }
 
-  get (key: string)
+  get (key: object): object | undefined
   {
-    const maps = _maps.get(this) as Map<string, object>[];
+    const maps = _maps.get(this) as Map<object, object>[];
     let value = undefined;
 
     for (let i = maps.length - 1; (value === undefined) && (i >= 0); --i)
@@ -30,9 +30,9 @@ class VidStateStack
     return value;
   }
 
-  set (key: string, value: object)
+  set (key: object, value: object)
   {
-    const maps = _maps.get(this) as Map<string, object>[];
+    const maps = _maps.get(this) as Map<object, object>[];
     maps[maps.length - 1].set(key, value);
   }
 }

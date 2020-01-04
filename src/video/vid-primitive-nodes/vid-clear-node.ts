@@ -15,6 +15,8 @@ class VidClearNode
 
   async render(gl: WebGL2RenderingContext, state: VidStateStack)
   {
+    console.log('VidClearNode.render()');
+
     gl.clearColor(...(_color.get(this) as Color));
     gl.clear(WebGL2RenderingContext.COLOR_BUFFER_BIT);
   }
