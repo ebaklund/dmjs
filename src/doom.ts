@@ -2,13 +2,10 @@ import WadContent = require('./wad/wad-content');
 import VidGroupNode = require('./video/vid-primitive-nodes/vid-group-node');
 import VidClearNode = require('./video/vid-primitive-nodes/vid-clear-node');
 import VidViewportNode = require('./video/vid-primitive-nodes/vid-viewport-node');
-import VidCallbackNode = require('./video/vid-primitive-nodes/vid-callback-node');
-import VidSeparatorNode = require('./video/vid-primitive-nodes/vid-separator-node');
 import VidStateStack = require('./video/vid-primitive-nodes/vid-state-stack');
-import VidArrayBufferNode = require('./video/vid-primitive-nodes/vid-array-buffer-node');
-import VidVertexShader = require('./video/vid-primitive-nodes/vid-vertex-shader');
-import VidFragmentShader = require('./video/vid-primitive-nodes/vid-fragment-shader');
-import VidShaderProgram = require('./video/vid-primitive-nodes/vid-shader-program');
+
+import VidPatchNode = require('./video/vid-game-nodes/vid-patch-node');
+
 
 async function fetchWadBuffer (): Promise<ArrayBuffer>
 {
@@ -47,24 +44,9 @@ function getPreferredCanvasSize (): { w: number, h: number }
   const root = new VidGroupNode([
     new VidViewportNode(),
     new VidClearNode(),
-    new VidVertexShader(`
-      attribute vec4 a_position;
-
-      void main() {
-        gl_Position = a_position;
-      }
-    `),
-    new VidFragmentShader(`
-      precision mediump float;
-
-      void main() {
-        gl_FragColor = vec4(1, 0, 0.5, 1);
-      }
-    `),
-    new VidShaderProgram(),
-    new VidArrayBufferNode([0, 0, 0, 0.5, 0.7, 0], 'a_position'),
-    new VidCallbackNode((gl: WebGL2RenderingContext, state: VidStateStack) => gl.drawArrays(WebGL2RenderingContext.TRIANGLES, 0, 3))
+    new VidPatchNode(160, 100, 50, 50)
   ]);
+
   root.render(gl, new VidStateStack());
 
   console.log('wad fetched!');
