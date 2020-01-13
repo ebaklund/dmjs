@@ -64,6 +64,21 @@ class VidShaderProgram extends VidGroupNode
 
     return uniformLoc;
   }
+
+  static getAttributeLoc(gl: WebGL2RenderingContext, state: VidStateStack, attributeName: string): number
+  {
+    const shaderProgram = state.get(VidShaderProgram) as VidShaderProgram | undefined;
+
+    if (shaderProgram === undefined)
+      throw new Error('VidArrayBufferNode.getAttrLoc(): Failed to find VidShaderProgram');
+
+    const attrLoc = gl.getAttribLocation(shaderProgram.getGlProgram(gl, state), attributeName);
+
+    if (attrLoc < 0)
+      throw new Error(`VidArrayBufferNode.getAttrLoc(): Failed to find attribute location for '${attributeName}'`);
+
+    return attrLoc;
+  }
 }
 
 function createGlProgram (gl: WebGL2RenderingContext, vs: VidVertexShader, fs: VidFragmentShader)

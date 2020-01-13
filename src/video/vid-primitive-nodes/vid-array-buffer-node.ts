@@ -57,17 +57,8 @@ function getAttrLoc(self: VidArrayBufferNode, gl: WebGL2RenderingContext, state:
 
   if (attrLoc === undefined)
   {
-    const shaderProgram = state.get(VidShaderProgram) as VidShaderProgram | undefined;
-
-    if (shaderProgram === undefined)
-      throw new Error('VidArrayBufferNode.getAttrLoc(): Failed to find VidShaderProgram');
-
     const attrName = _attrName.get(self) as string;
-    attrLoc = gl.getAttribLocation(shaderProgram.getGlProgram(gl, state), attrName);
-
-    if (attrLoc < 0)
-      throw new Error(`VidArrayBufferNode.getAttrLoc(): Failed to find attribute location for '${attrName}'`);
-
+    attrLoc = VidShaderProgram.getAttributeLoc(gl, state, attrName);
     _attrLoc.set(self, attrLoc);
   }
 

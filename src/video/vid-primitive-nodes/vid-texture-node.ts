@@ -33,7 +33,10 @@ class VidTextureNode implements VidBaseNode
     const glTexture = getGlTexture(this, gl);
     const uniformLoc = getUniformLoc(this, gl, state);
     const texUnit = _texUnit.get(this) as number;
-     gl.uniform1i(uniformLoc, texUnit);
+
+    gl.activeTexture(gl.TEXTURE0 + texUnit);
+    gl.bindTexture(gl.TEXTURE_2D, glTexture);
+    gl.uniform1i(uniformLoc, texUnit);
   }
 }
 
