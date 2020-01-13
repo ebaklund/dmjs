@@ -4,6 +4,7 @@ import VidStateStack = require('./vid-state-stack');
 import VidVertexShader = require('./vid-vertex-shader');
 import VidFragmentShader = require('./vid-fragment-shader');
 
+import { isNullOrUndefined } from 'util';
 
 const _vertexShader = new WeakMap<object, VidVertexShader>();
 const _fragmentShader = new WeakMap<object, VidFragmentShader>();
@@ -46,6 +47,22 @@ class VidShaderProgram extends VidGroupNode
     state.set(VidShaderProgram, this);
 
     await super.render(gl, state);
+  }
+
+  static getUniformLoc(gl: WebGL2RenderingContext, state: VidStateStack, uniformName: string): WebGLUniformLocation
+  {
+    const shaderProgram = state.get(VidShaderProgram) as VidShaderProgram | undefined;
+
+    if (shaderProgram === undefined)
+      throw new Error('VidShaderProgram.getUniformLoc(): Failed to find VidShaderProgram');
+
+    const glProgram = shaderProgram.getGlProgram(gl, state);
+    const uniformLoc = gl.getUniformLocation(glProgram, uniformName);
+
+    if (isNullOrUndefined(uniformLoc))
+      throw new Error(`VidShaderProgram.getUniformLoc(): Failed to find uniform location for '${uniformName}'`);
+
+    return uniformLoc;
   }
 }
 

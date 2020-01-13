@@ -1,4 +1,5 @@
-import WadContent = require('./wad/wad-content');
+import WadLumpMap = require('./wad/wad-lump-map');
+import WadPatch = require('./wad/wad-patch');
 import VidGroupNode = require('./video/vid-primitive-nodes/vid-group-node');
 import VidClearNode = require('./video/vid-primitive-nodes/vid-clear-node');
 import VidViewportNode = require('./video/vid-primitive-nodes/vid-viewport-node');
@@ -32,19 +33,22 @@ function getPreferredCanvasSize (): { w: number, h: number }
 (async () => {
   console.log('Fetching wad!');
 
-  const wad = WadContent.from(await fetchWadBuffer());
+  const wadLumpMap = WadLumpMap.from(await fetchWadBuffer());
 
   const cnv = document.getElementById('doomCanvas') as HTMLCanvasElement
   const gm = getPreferredCanvasSize();
   cnv.width = gm.w;
   cnv.height = gm.h;
 
+  const lump = wadLumpMap.getLump('TITLEPIC');
+  const patch = WadPatch.from(lump);
+
   const gl = cnv.getContext('webgl2') as WebGL2RenderingContext;
 
   const root = new VidGroupNode([
     new VidViewportNode(),
-    new VidClearNode(),
-    new VidPatchNode(160, 100, 50, 50)
+    new VidClearNode([0.5, 0.5, 0.5, 1.0]),
+    new VidPatchNode(patch)
   ]);
 
   root.render(gl, new VidStateStack());

@@ -28,6 +28,6 @@ export = class WadInfo extends WadItem
 
   getLump (i: number)
   {
-    return new WadLump(this.wadView.spawn(this.infotableOfs + i * WadLump.Sizeof, undefined));
+    return new WadLump(this.wadView.spawnRelative(this.infotableOfs + i * WadLump.Sizeof, undefined));
   }
 }

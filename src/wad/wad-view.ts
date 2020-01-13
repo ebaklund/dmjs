@@ -10,13 +10,18 @@ export = class WadView extends DataView
     super(arrayBuffer, offset, length);
   }
 
-  spawn (offset: number, length: number | undefined): WadView
+  spawnRelative (offset: number, length: number | undefined): WadView
   {
     return new WadView(this.buffer, this.byteOffset + offset, length);
   }
 
+  spawnAbsolute (position: number, length: number | undefined): WadView
+  {
+    return new WadView(this.buffer, position, length);
+  }
+
   getString(textOffset: number, textLength: number): string
   {
-    return _textDecoder.decode(this.spawn(textOffset, textLength));
+    return _textDecoder.decode(this.spawnRelative(textOffset, textLength));
   }
 }

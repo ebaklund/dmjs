@@ -22,7 +22,7 @@ export = class WadLump extends WadItem
 
   get data(): WadView
   {
-    return this.wadView.spawn(this.dataOffset, undefined);
+    return this.wadView.spawnRelative(this.dataOffset, undefined);
   }
 
   get size(): number

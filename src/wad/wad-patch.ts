@@ -10,7 +10,7 @@ class WadPatch extends WadItem
 {
   static from (wadLump: WadLump)
   {
-    return new WadPatch(wadLump.wadView.spawn(wadLump.dataOffset, undefined));
+    return new WadPatch(wadLump.wadView.spawnAbsolute(wadLump.dataOffset, undefined));
   }
 
   constructor (wadView: WadView)
@@ -46,7 +46,7 @@ class WadPatch extends WadItem
 
   getColumn(i: number): WadColumn
   {
-    return new WadColumn(this.wadView.spawn(this.getColumnOfs(i), undefined));
+    return new WadColumn(this.wadView.spawnRelative(this.getColumnOfs(i), undefined));
   }
 
   get cache (): Uint8Array

@@ -11,12 +11,12 @@ export = class WadPost extends WadItem
 
   get topDelta (): number
   {
-    return this.wadView.getInt8(0);
+    return this.wadView.getUint8(0);
   }
 
   get length (): number
   {
-    return this.wadView.getInt8(1);
+    return this.wadView.getUint8(1);
   }
 
   get isEnd (): boolean
@@ -31,7 +31,7 @@ export = class WadPost extends WadItem
 
   get next (): WadPost
   {
-    return new WadPost(this.wadView.spawn(4 + this.length, undefined));
+    return new WadPost(this.wadView.spawnRelative(4 + this.length, undefined));
   }
 
   fillCache(x: number, y: number, width: number, height: number, cache: Uint8Array)
