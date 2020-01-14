@@ -1,5 +1,6 @@
 import WadLumpMap = require('./wad/wad-lump-map');
 import WadPatch = require('./wad/wad-patch');
+import WadPalette = require('./wad/wad-palette');
 import VidGroupNode = require('./video/vid-primitive-nodes/vid-group-node');
 import VidClearNode = require('./video/vid-primitive-nodes/vid-clear-node');
 import VidViewportNode = require('./video/vid-primitive-nodes/vid-viewport-node');
@@ -40,15 +41,20 @@ function getPreferredCanvasSize (): { w: number, h: number }
   cnv.width = gm.w;
   cnv.height = gm.h;
 
-  const lump = wadLumpMap.getLump('TITLEPIC');
+  let lump;
+
+  lump = wadLumpMap.getLump('TITLEPIC');
   const patch = WadPatch.from(lump);
+
+  lump = wadLumpMap.getLump('PLAYPAL');
+  const palette = WadPalette.from(lump);
 
   const gl = cnv.getContext('webgl2') as WebGL2RenderingContext;
 
   const root = new VidGroupNode([
     new VidViewportNode(),
     new VidClearNode([0.5, 0.5, 0.5, 1.0]),
-    new VidPatchNode(patch)
+    new VidPatchNode(patch, palette)
   ]);
 
   root.render(gl, new VidStateStack());

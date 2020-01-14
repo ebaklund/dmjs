@@ -55,13 +55,6 @@ function getGlTexture (self: VidTextureNode, gl: WebGL2RenderingContext): WebGLB
 
 function createTexture (self: VidTextureNode, gl: WebGL2RenderingContext): WebGLBuffer
 {
-  const glTexture = gl.createTexture();
-
-  if (!glTexture)
-    throw new Error('VidTexture.create(): Failed to create vertex WebGLTexture.');
-
-  gl.bindTexture(gl.TEXTURE_2D, glTexture);
-
   const level = 0;
   const internalFormat = _format.get(self) as number;
   const format = _format.get(self) as number;
@@ -70,6 +63,15 @@ function createTexture (self: VidTextureNode, gl: WebGL2RenderingContext): WebGL
   const border = 0;
   const type = gl.UNSIGNED_BYTE;
   const data = _data.get(self) as Uint8Array;
+  const texUnit = _texUnit.get(self) as number;
+
+  const glTexture = gl.createTexture();
+
+  if (!glTexture)
+    throw new Error('VidTexture.create(): Failed to create vertex WebGLTexture.');
+
+  gl.activeTexture(gl.TEXTURE0 + texUnit);
+  gl.bindTexture(gl.TEXTURE_2D, glTexture);
 
   gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, width, height, border, format, type, data);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);

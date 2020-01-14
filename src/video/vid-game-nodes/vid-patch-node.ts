@@ -8,16 +8,18 @@ import VidVertexShader = require('../vid-primitive-nodes/vid-vertex-shader');
 import VidFragmentShader = require('../vid-primitive-nodes/vid-fragment-shader');
 import VidShaderProgram = require('../vid-primitive-nodes/vid-shader-program');
 import VidColorTexture = require('../vid-primitive-nodes/vid-color-texture');
+import VidPaletteTexture = require('../vid-primitive-nodes/vid-palette-texture');
 import VidMatrix = require('../vid-matrix');
 
 import WadPatch = require('../../wad/wad-patch');
+import WadPalette = require('../../wad/wad-palette');
 
 
 const _root = new WeakMap<object, VidBaseNode>();
 
 class VidPatchNode implements VidBaseNode
 {
-  constructor (patch: WadPatch)
+  constructor (patch: WadPatch, palette: WadPalette)
   {
     const [ x, y ] = VidMatrix.vecToGl([ patch.x, patch.y ]);
     const [ w, h ] = VidMatrix.sizeToGl([ patch.width, patch.height ]);
@@ -40,8 +42,9 @@ class VidPatchNode implements VidBaseNode
         uniform sampler2D u_palette;
 
         void main() {
-          vec4 c = texture2D(u_colorIndices, v_texCoord);
-          gl_FragColor = vec4(c.r, c.g, c.b, 1.0);
+          float i = texture2D(u_colorIndices, v_texCoord).r;
+          vec4 c = texture2D(u_palette, vec2(i, 0.5));
+          gl_FragColor = texture2D(u_palette, vec2(i, 0.5));
         }
       `),
 //          vec4 c = texture2D(u_colorIndices, v_texCoord) / 255.0;
@@ -51,6 +54,7 @@ class VidPatchNode implements VidBaseNode
         x, y,  x + w, y - h,  x, y - h
       ], 'a_position'),
       new VidColorTexture(patch.width, patch.height, patch.cache, 'u_colorIndices'),
+      new VidPaletteTexture(palette.texData,'u_palette'),
       new VidCallbackNode((gl: WebGL2RenderingContext, state: VidStateStack) => gl.drawArrays(WebGL2RenderingContext.TRIANGLES, 0, 6))
     ]);
 

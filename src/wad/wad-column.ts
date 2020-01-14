@@ -7,7 +7,7 @@ export = class WadColumn extends WadItem
 {
   constructor (wadView: WadView)
   {
-    console.log('WadColumn.constructor()');
+    // console.log('WadColumn.constructor()');
     super(wadView);
   }
 
