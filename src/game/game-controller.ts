@@ -27,6 +27,11 @@ class GameController
   {
     console.log('Game.main()');
 
+
+  const wadBlockmap = (_wadController.get(this) as WadController).getBlockmap(60);
+  console.log('deleteme');
+
+
     await runLoop(this);
   }
 }
