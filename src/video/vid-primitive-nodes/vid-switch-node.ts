@@ -1,36 +1,48 @@
-import VidGroupNode = require('./vid-group-node');
+import VidBaseNode = require('./vid-base-node');
 import VidStateStack = require('./vid-state-stack');
 
-const _childIndex = new WeakMap<object, number>();
 
-class VidSwitchNode extends VidGroupNode
+const _nodeDict = new WeakMap<object, Map<string, VidBaseNode>>();
+const _selectedNode = new WeakMap<object, VidBaseNode>();
+
+
+class VidSwitchNode implements VidBaseNode
 {
   constructor ()
   {
-    super();
-    _childIndex.set(this, -1);
+    _nodeDict.set(this, new Map<string, VidBaseNode>());
   }
 
-  set childIndex (i: number)
+  get (label: string): VidBaseNode | undefined
   {
-    if (i < -1 || i >= this.children.length)
-      throw new Error(`VidSwitchNode.whichChild(): Index out of bounds i: ${i}`)
-
-    _childIndex.set(this, i);
+    return (_nodeDict.get(this) as Map<string, VidBaseNode>).get(label);
   }
 
-  get childIndex (): number
+  set (label: string, node: VidBaseNode)
   {
-    return _childIndex.get(this) as number;
+    (_nodeDict.get(this) as Map<string, VidBaseNode>).set(label, node);
   }
+
+  switch (label: string)
+  {
+    const node = this.get(label);
+
+    if (node === undefined)
+      throw new Error(`VidSwitchNode.switch(): Selected node not found: '${label}'`)
+
+    _selectedNode.set(this, node);
+  }
+
 
   async render (gl: WebGL2RenderingContext, state: VidStateStack)
   {
-    const childIndex = this.childIndex;
+    const selectedNode = _selectedNode.get(this);
 
-    if (childIndex <= -1)
-      return;
+    if (selectedNode === undefined)
+      throw new Error('VidSwitchNode.render(): no child node is selected.');
 
-    await this.children[childIndex].render(gl, state);
+    await selectedNode.render(gl, state);
   }
 }
+
+export = VidSwitchNode;

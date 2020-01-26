@@ -1,65 +1,32 @@
-import WadLumpMap = require('./wad/wad-lump-map');
-import WadPatch = require('./wad/wad-patch');
-import WadPalette = require('./wad/wad-palette');
-import VidGroupNode = require('./video/vid-primitive-nodes/vid-group-node');
-import VidClearNode = require('./video/vid-primitive-nodes/vid-clear-node');
-import VidViewportNode = require('./video/vid-primitive-nodes/vid-viewport-node');
-import VidStateStack = require('./video/vid-primitive-nodes/vid-state-stack');
+import WadController = require('./wad/wad-controller');
+import VidController = require('./video/vid-controller');
+import GameController = require('./game/game-controller');
 
-import VidPatchNode = require('./video/vid-game-nodes/vid-patch-node');
-
-
-async function fetchWadBuffer (): Promise<ArrayBuffer>
+function updateCanvasSize (cnv: HTMLCanvasElement)
 {
-  return fetch('/data/dm.wad',
-  {
-    headers:
-    {
-      'Content-Type': 'application/application/octet-stream',
-      'X-Content-Type-Options': 'nosniff'
-    }
-  })
-  .then(res => res.arrayBuffer());
-}
+  console.log('updateCanvasSize()');
 
-function getPreferredCanvasSize (): { w: number, h: number }
-{
-  const w: number = window.innerWidth;
-  const h: number = window.innerHeight;
-  return (w/h <= 1.6) ? { w, h: (w/1.6)|0 } : { w: (1.6*h)|0, h };
-}
-
-// Main
+  const fse = document.fullscreenElement;
+  const a: number = 3.0 / 4.0; // pixel aspect correction
+  const w: number = fse ? fse.clientWidth : window.innerWidth;
+  const h: number = fse ? fse.clientHeight : window.innerHeight;
+  const size = (w/h <= 1.6) ? { width: w, height: (w/1.6)|0 } : { width: (1.6*h)|0, height: h };
+  cnv.width = size.width * a;
+  cnv.height = size.height;
+};
 
 (async () => {
-  console.log('Fetching wad!');
-
-  const wadLumpMap = WadLumpMap.from(await fetchWadBuffer());
-
-  const cnv = document.getElementById('doomCanvas') as HTMLCanvasElement
-  const gm = getPreferredCanvasSize();
-  cnv.width = gm.w;
-  cnv.height = gm.h;
-
-  let lump;
-
-  lump = wadLumpMap.getLump('TITLEPIC');
-  const patch = WadPatch.from(lump);
-
-  lump = wadLumpMap.getLump('PLAYPAL');
-  const palette = WadPalette.from(lump);
-
+  const cnv = document.getElementById('doomCanvas') as HTMLCanvasElement;
   const gl = cnv.getContext('webgl2') as WebGL2RenderingContext;
 
-  const root = new VidGroupNode([
-    new VidViewportNode(),
-    new VidClearNode([0.5, 0.5, 0.5, 1.0]),
-    new VidPatchNode(patch, palette)
-  ]);
+  document.addEventListener("fullscreenchange", () => updateCanvasSize(cnv), false);
+  updateCanvasSize(cnv);
 
-  root.render(gl, new VidStateStack());
+  const wadController = await WadController.from('/data/dm.wad');
+  const vidController = VidController.from(gl);
 
-  console.log('wad fetched!');
+  (new GameController(wadController, vidController))
+    .runMain();
 })()
 
 export = {}
