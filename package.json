@@ -19,7 +19,7 @@
   "scripts": {
     "test": "mocha",
     "start": "node server.js",
-    "build": "rm -rf dest/* && rm -rf wwwroot/js/* && tsc && browserify dest/js/doom.js > wwwroot/js/doom.js",
+    "build": "rm -rf dest/* && rm -rf wwwroot/js/* && tsc && mkdir -p wwwroot/js/client && browserify dest/js/client/doom.js > wwwroot/js/client/doom.js",
     "server": "serve wwwroot",
     "doom": "npm run build && npm run server"
   },

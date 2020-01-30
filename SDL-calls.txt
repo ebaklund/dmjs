@@ -1,0 +1,106 @@
+SDL_AddrToString                  // Converts network address to string
+SDL_AllocFormat                   // create an SDL_PixelFormat structure corresponding to a pixel format
+SDL_BlitSurface                   // perform a fast surface copy to a destination surface.
+SDL_BuildAudioCVT                 // initialize an SDL_AudioCVT structure for conversion
+SDL_ConvertAudio                  // convert audio data to a desired audio format
+SDL_CreateMutex                   // create a new mutex
+SDL_CreateRenderer                // create a 2D rendering context for a window
+SDL_CreateRGBSurface              // allocate a new RGB surface
+SDL_CreateRGBSurfaceFrom          // allocate a new RGB surface with existing pixel data
+SDL_CreateTexture                 // create a texture for a rendering context
+SDL_CreateTextureFromSurface      // create a texture from an existing surface
+SDL_CreateWindow                  // create a window with the specified position, dimensions, and flags
+SDL_Delay                         // wait a specified number of milliseconds before returning
+SDL_DestroyRenderer               // destroy the rendering context for a window and free associated textures
+SDL_DestroyTexture                // destroy the specified texture
+SDL_FillRect                      // perform a fast fill of a rectangle with a specific color
+SDL_FindAddress                   // Lookup (or insert) info associated with ip-address
+SDL_free                          // A free() wrapper?
+SDL_FreeFormat                    // free an SDL_PixelFormat structure allocated by SDL_AllocFormat
+SDL_FreeSurface                   // free an RGB surface
+SDL_GetAppState                   // returns bitwise combination of application state (config)
+SDL_GetCurrentAudioDriver         // get the name of the current audio driver
+SDL_GetCurrentDisplayMode         // get the current numeric display mode
+SDL_GetDisplayBounds              // get the desktop area represented by a display, with the primary display located at 0,0
+SDL_GetError                      // retrieve a message about the last error that occurred
+SDL_GetModState                   // get the current key modifier state for the keyboard
+SDL_GetNumVideoDisplays           // get the number of available video displays
+SDL_GetPlatform                   // get the name of the platform
+SDL_GetPrefPath                   // where the application can write personal files
+SDL_GetRelativeMouseState         // get mouse pos retrieve to the function argument (x, y)
+SDL_GetRendererInfo               // get information about a rendering context
+SDL_GetRendererOutputSize         // get the output size in pixels of a rendering context
+SDL_GetTicks                      // get the number of milliseconds since the SDL library initialization
+SDL_GetVersion                    // get the current SDL version
+SDL_GetWindowDisplayIndex         // get the index of the display associated with a window
+SDL_GetWindowFlags                // get the window operation flags
+SDL_GetWindowID                   // get the numeric ID of a window, for logging purposes
+SDL_GetWindowPixelFormat          // get the pixel format associated with the window
+SDL_GetWindowSize                 // get the size of a window's client area
+SDL_GetWindowSurface
+SDL_Init
+SDL_InitAddrTable
+SDL_JoystickClose
+SDL_JoystickEventState
+SDL_JoystickGetAxis
+SDL_JoystickGetButton
+SDL_JoystickGetDeviceGUID
+SDL_JoystickGetGUID
+SDL_JoystickGetGUIDFromString
+SDL_JoystickGetGUIDString
+SDL_JoystickGetHat
+SDL_JoystickInstanceID
+SDL_JoystickName
+SDL_JoystickNameForIndex
+SDL_JoystickNumAxes
+SDL_JoystickNumButtons
+SDL_JoystickNumHats
+SDL_JoystickOpen
+SDL_LockAudio
+SDL_LockMutex
+SDL_LockSurface
+SDL_LowerBlit
+SDL_MapRGB
+SDL_max
+SDL_mixer
+SDL_NumJoysticks
+SDL_PauseAudio
+SDL_PeepEvents
+SDL_PixelFormatEnumToMasks
+SDL_PollEvent
+SDL_PumpEvents
+SDL_qsort
+SDL_Quit
+SDL_QuitSubSystem
+SDL_RenderClear
+SDL_RenderCopy
+SDL_RenderPresent
+SDL_RenderReadPixels
+SDL_RenderSetIntegerScale
+SDL_RenderSetLogicalSize
+SDL_ResolveAddress
+SDL_SetEventCallback
+SDL_SetHint
+SDL_SetPaletteColors
+SDL_SetRelativeMouseMode
+SDL_SetRenderDrawColor
+SDL_SetRenderTarget
+SDL_SetTextureAlphaMod
+SDL_SetTextureBlendMode
+SDL_SetWindowFullscreen
+SDL_SetWindowIcon
+SDL_SetWindowMinimumSize
+SDL_SetWindowSize
+SDL_SetWindowTitle
+SDL_ShowSimpleMessageBox
+SDL_StartTextInput
+SDL_StopTextInput
+SDL_SwapBE16
+SDL_SwapBE32
+SDL_UnlockAudio
+SDL_UnlockMutex
+SDL_UnlockSurface
+SDL_UpdateTexture
+SDL_UpdateWindowSurface
+SDL_UpdateWindowSurfaceRects
+SDL_WarpMouseInWindow
