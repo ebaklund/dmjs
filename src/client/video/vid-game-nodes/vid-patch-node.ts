@@ -11,8 +11,8 @@ import VidColorTexture = require('../vid-primitive-nodes/vid-color-texture');
 import VidPaletteTexture = require('../vid-primitive-nodes/vid-palette-texture');
 import VidMatrix = require('../vid-matrix');
 
-import WadPatch = require('../../wad/wad-patch');
-import WadPalette = require('../../wad/wad-palette');
+import WadPatch = require('../../../server/wad/wad-patch');
+import WadPalette = require('../../../server/wad/wad-palette');
 
 
 const _root = new WeakMap<object, VidBaseNode>();

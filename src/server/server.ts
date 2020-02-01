@@ -11,6 +11,7 @@ console.log('wwwroot:', wwwroot);
 
 app.use('/', express.static(wwwroot));
 app.use('/js', express.static(wwwroot + '/js'));
+app.use('/patch', express.static(wwwroot + '/js'));
 
 const server = app.listen(8081, () => {
     const port = (server.address() as AddressInfo).port;

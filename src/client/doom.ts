@@ -1,4 +1,4 @@
-import WadController = require('./wad/wad-controller');
+import WadController = require('../server/wad/wad-controller');
 import VidController = require('./video/vid-controller');
 import GameController = require('./game/game-controller');
 

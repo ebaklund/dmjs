@@ -1,4 +1,4 @@
-import WadSector = require('../wad/wad-sector');
+import WadSector = require('../../server/wad/wad-sector');
 
 class GameSector
 {

@@ -1,7 +1,7 @@
 'use strict';
 
-import WadPatch = require('../wad/wad-patch');
-import WadPalette = require('../wad/wad-palette');
+import WadPatch = require('../../server/wad/wad-patch');
+import WadPalette = require('../../server/wad/wad-palette');
 import VidStateStack = require('./vid-primitive-nodes/vid-state-stack');
 import VidBaseNode = require('./vid-primitive-nodes/vid-base-node');
 import VidGroupNode = require('./vid-primitive-nodes/vid-group-node');
